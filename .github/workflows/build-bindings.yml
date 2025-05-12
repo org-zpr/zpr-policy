@@ -2,6 +2,7 @@ name: Generate Bindings
 on:
   release:
     types: [created, edited]
+
 jobs:
   generate-rust-bindings:
     runs-on: ubuntu-latest
@@ -28,6 +29,7 @@ jobs:
         working-directory: policy-rs
         shell: bash
         run: |
+          sudo apt-get install protobuf-compiler
           rustup default stable
           cargo build
           source ../policy-src/make-version.sh
@@ -44,8 +46,6 @@ jobs:
 
   generate-go-bindings:
     runs-on: ubuntu-latest
-    container:
-      image: docker://ghcr.io/org-zpr/38f3bb925e5e:latest
     steps:
       - name: Checkout policy source
         uses: actions/checkout@v4
@@ -69,6 +69,8 @@ jobs:
         working-directory: policy-go
         shell: bash
         run: |
+          sudo apt-get install protoc-gen-go
+          sudo apt-get install protoc-gen-go-grpc
           make
           source ../policy-src/make-version.sh
 

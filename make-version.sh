@@ -84,9 +84,9 @@ function update_rust_cargo() {
 
 function populate_github_output() {
   if [[ -v GITHUB_OUTPUT ]]; then
-    echo "title=[$this_version] Generate go bindings for POLICY IO $src_version" >> $GITHUB_OUTPUT
-    echo "body=This code was automatically generated using $tool_version." >> $GITHUB_OUTPUT
-    echo "branch=generate-$this_version" >> $GITHUB_OUTPUT
+    echo "title=[$this_version] Generate go bindings for POLICY IO $src_version" >> "$GITHUB_OUTPUT"
+    echo "body=This code was automatically generated using $tool_version." >> "$GITHUB_OUTPUT"
+    echo "branch=generate-$this_version" >> "$GITHUB_OUTPUT"
   fi
 }
 
@@ -122,5 +122,6 @@ case $repo in
     ;;
   *)
     echo "Invalid repository"
+    $quit 1
     ;;
 esac
