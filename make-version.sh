@@ -84,13 +84,14 @@ function update_rust_cargo() {
 
 function populate_github_output() {
   if [[ -v GITHUB_OUTPUT ]]; then
-    echo "title=[$this_version] Generate go bindings for POLICY IO $src_version" >> "$GITHUB_OUTPUT"
+    echo "title=[$this_version] Generate $lang bindings for POLICY IO $src_version" >> "$GITHUB_OUTPUT"
     echo "body=This code was automatically generated using $tool_version." >> "$GITHUB_OUTPUT"
     echo "branch=generate-$this_version" >> "$GITHUB_OUTPUT"
   fi
 }
 
 function do_versioning() {
+  echo "Updating version info for $lang bindings in $repo"
   get_previous_versions
   check_tool_version
   check_src_version
@@ -112,12 +113,12 @@ case $repo in
     echo "Not supported"
     ;;
   zpr-policy-rs)
-    echo "Updating version info for Rust bindings in $repo"
+    lang="Rust"
     do_versioning
     update_rust_cargo
     ;;
   zpr-policy-go)
-    echo "Updating version info for Go bindings in $repo"
+    lang="Go"
     do_versioning
     ;;
   *)
