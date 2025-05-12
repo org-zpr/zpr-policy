@@ -1,0 +1,83 @@
+name: Generate Bindings
+on:
+  release:
+    types: [created, edited]
+jobs:
+  generate-rust-bindings:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout policy source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: policy-src
+
+      - name: Checkout rust policy bindings
+        uses: actions/checkout@v4
+        with:
+          repository: org-zpr/zpr-policy-rs
+          token: ${{ secrets.POLICY_BINDINGS_RW }}
+          fetch-depth: 0
+          path: policy-rs
+
+      - name: Build Rust Bindings
+        id: rs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          POLICY_SRC_PATH: ../policy-src
+        working-directory: policy-rs
+        shell: bash
+        run: |
+          rustup default stable
+          cargo build
+          source ../policy-src/make-version.sh
+
+      - name: Create zpr-policy-rs PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          path: policy-rs
+          token: ${{ secrets.POLICY_BINDINGS_RW }}
+          commit-message: ${{ steps.rs.outputs.title }}
+          title: ${{ steps.rs.outputs.title }}
+          body: ${{ steps.rs.outputs.body }}
+          branch: ${{ steps.rs.outputs.branch }}
+
+  generate-go-bindings:
+    runs-on: ubuntu-latest
+    container:
+      image: docker://ghcr.io/org-zpr/38f3bb925e5e:latest
+    steps:
+      - name: Checkout policy source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: policy-src
+
+      - name: Checkout go policy bindings
+        uses: actions/checkout@v4
+        with:
+          repository: org-zpr/zpr-policy-go
+          token: ${{ secrets.POLICY_BINDINGS_RW }}
+          fetch-depth: 0
+          path: policy-go
+
+      - name: Generate Go Bindings
+        id: go
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          POLICY_SRC_PATH: ../policy-src
+        working-directory: policy-go
+        shell: bash
+        run: |
+          make
+          source ../policy-src/make-version.sh
+
+      - name: Create zpr-policy-go PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          path: policy-go
+          token: ${{ secrets.POLICY_BINDINGS_RW }}
+          commit-message: ${{ steps.go.outputs.title }}
+          title: ${{ steps.go.outputs.title }}
+          body: ${{ steps.go.outputs.body }}
+          branch: ${{ steps.go.outputs.branch }}
