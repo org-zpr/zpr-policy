@@ -2,83 +2,46 @@ name: Generate Bindings
 on:
   release:
     types: [created, edited]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
 
 jobs:
   generate-rust-bindings:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout policy source
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          path: policy-src
-
-      - name: Checkout rust policy bindings
-        uses: actions/checkout@v4
-        with:
-          repository: org-zpr/zpr-policy-rs
-          token: ${{ secrets.POLICY_BINDINGS_RW }}
-          fetch-depth: 0
-          path: policy-rs
-
-      - name: Build Rust Bindings
-        id: rs
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: policy-rs
-        shell: bash
-        run: |
-          sudo apt-get install protobuf-compiler
-          rustup default stable
-          $(cd generator && cargo run -- -i ../../policy-src)
-          source ../policy-src/make-version.sh
-
-      - name: Create zpr-policy-rs PR
-        uses: peter-evans/create-pull-request@v7
-        with:
-          path: policy-rs
-          token: ${{ secrets.POLICY_BINDINGS_RW }}
-          commit-message: ${{ steps.rs.outputs.title }}
-          title: ${{ steps.rs.outputs.title }}
-          body: ${{ steps.rs.outputs.body }}
-          branch: ${{ steps.rs.outputs.branch }}
+    name: Generate Rust Bindings
+    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@10566b67953a61df7f4fb973fd4def3781c22bd0
+    with:
+      src-repo: org-zpr/zpr-policy
+      dst-repo: org-zpr/zpr-policy-rs
+      lang: rust
+      dry-run: ${{ github.event_name == 'pull_request' }}
+      make-script: 'sudo apt-get install protobuf-compiler;
+          rustup default stable;
+          cd generator;
+          cargo run -- -i ../$SRC_PATH'
+    secrets:
+      RW_TOKEN: ${{ secrets.POLICY_BINDINGS_RW }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RO_TOKEN: ${{ secrets.ZPR_CICD_RO_TOKEN }}
 
   generate-go-bindings:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout policy source
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          path: policy-src
-
-      - name: Checkout go policy bindings
-        uses: actions/checkout@v4
-        with:
-          repository: org-zpr/zpr-policy-go
-          token: ${{ secrets.POLICY_BINDINGS_RW }}
-          fetch-depth: 0
-          path: policy-go
-
-      - name: Generate Go Bindings
-        id: go
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          POLICY_SRC_PATH: ../policy-src
-        working-directory: policy-go
-        shell: bash
-        run: |
-          sudo apt-get install protoc-gen-go
-          sudo apt-get install protoc-gen-go-grpc
-          make
-          source ../policy-src/make-version.sh
-
-      - name: Create zpr-policy-go PR
-        uses: peter-evans/create-pull-request@v7
-        with:
-          path: policy-go
-          token: ${{ secrets.POLICY_BINDINGS_RW }}
-          commit-message: ${{ steps.go.outputs.title }}
-          title: ${{ steps.go.outputs.title }}
-          body: ${{ steps.go.outputs.body }}
-          branch: ${{ steps.go.outputs.branch }}
+    name: Generate Go Bindings
+    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@10566b67953a61df7f4fb973fd4def3781c22bd0
+    with:
+      src-repo: org-zpr/zpr-policy
+      dst-repo: org-zpr/zpr-policy-go
+      lang: go
+      dry-run: ${{ github.event_name == 'pull_request' }}
+      make-script: 'sudo apt-get install protoc-gen-go;
+          sudo apt-get install protoc-gen-go-grpc;
+          export POLICY_SRC_PATH=$SRC_PATH;
+          make'
+    secrets:
+      RW_TOKEN: ${{ secrets.POLICY_BINDINGS_RW }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RO_TOKEN: ${{ secrets.ZPR_CICD_RO_TOKEN }}
