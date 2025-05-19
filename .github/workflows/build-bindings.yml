@@ -25,13 +25,12 @@ jobs:
         id: rs
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          POLICY_SRC_PATH: ../policy-src
         working-directory: policy-rs
         shell: bash
         run: |
           sudo apt-get install protobuf-compiler
           rustup default stable
-          cargo build
+          $(cd generator && cargo run -- -i ../../policy-src)
           source ../policy-src/make-version.sh
 
       - name: Create zpr-policy-rs PR
