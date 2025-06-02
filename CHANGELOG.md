@@ -1,0 +1,12 @@
+# Policy "compiled form" Protocol Buffer Format
+
+## [0.2.0] - 2025-06-02
+
+- Support for new service type `SVC_ACTOR_AUTH` for an actor facting 
+  authentication service.
+- Remove some of the old zds service propoerties and add in properties for 
+  the query URI and validate URI.
+
+
+[0.2.0]: https://github.com/org-zpr/zpr-policy/releases/tag/v0.2.0
+
