@@ -14,13 +14,13 @@ env:
 jobs:
   generate-rust-bindings:
     name: Generate Rust Bindings
-    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@v0.1.0
+    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@10d7ff582c5d7212f09cddf1d1821382002a1b93
     with:
       src-repo: org-zpr/zpr-policy
       dst-repo: org-zpr/zpr-policy-rs
       lang: rust
       dry-run: ${{ github.event_name == 'pull_request' }}
-      make-script: 'sudo apt-get install protobuf-compiler;
+      make-script: 'apt-get install -y protobuf-compiler;
           rustup default stable;
           cd generator;
           cargo run -- -i ../$SRC_PATH'
@@ -31,14 +31,14 @@ jobs:
 
   generate-go-bindings:
     name: Generate Go Bindings
-    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@v0.1.0
+    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@10d7ff582c5d7212f09cddf1d1821382002a1b93
     with:
       src-repo: org-zpr/zpr-policy
       dst-repo: org-zpr/zpr-policy-go
       lang: go
       dry-run: ${{ github.event_name == 'pull_request' }}
-      make-script: 'sudo apt-get install protoc-gen-go;
-          sudo apt-get install protoc-gen-go-grpc;
+      make-script: 'apt-get install -y protoc-gen-go;
+          apt-get install -y protoc-gen-go-grpc;
           export POLICY_SRC_PATH=$SRC_PATH;
           make'
     secrets:
