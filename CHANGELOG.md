@@ -1,5 +1,10 @@
 # Policy "compiled form" Protocol Buffer Format
 
+## [0.2.2] - 2025-06-05
+
+- New fields on the service to store returned and identity attributes.
+
+
 ## [0.2.0] - 2025-06-02
 
 - Support for new service type `SVC_ACTOR_AUTH` for an actor facting 
@@ -8,5 +13,6 @@
   the query URI and validate URI.
 
 
+[0.2.2]: https://github.com/org-zpr/zpr-policy/releases/tag/v0.2.2
 [0.2.0]: https://github.com/org-zpr/zpr-policy/releases/tag/v0.2.0
 
