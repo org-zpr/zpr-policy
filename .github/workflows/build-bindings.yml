@@ -22,8 +22,7 @@ jobs:
       dry-run: ${{ github.event_name == 'pull_request' }}
       make-script: 'apt-get install -y protobuf-compiler;
           rustup default stable;
-          cd generator;
-          cargo run -- -i ../$SRC_PATH'
+          ./generate.sh $SRC_PATH'
     secrets:
       RW_TOKEN: ${{ secrets.POLICY_BINDINGS_RW }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -39,8 +38,7 @@ jobs:
       dry-run: ${{ github.event_name == 'pull_request' }}
       make-script: 'apt-get install -y protoc-gen-go;
           apt-get install -y protoc-gen-go-grpc;
-          export POLICY_SRC_PATH=$SRC_PATH;
-          make'
+          ./generate.sh $SRC_PATH'
     secrets:
       RW_TOKEN: ${{ secrets.POLICY_BINDINGS_RW }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
