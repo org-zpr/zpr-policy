@@ -8,33 +8,34 @@ option go_package = "spacelaser.net/zpr/pkg/snet/polio";
 
 // PolicyContainer is what is sent to a node (produced by the compiler)
 message PolicyContainer {
-    uint32 container_version = 1;
-    string policy_date       = 2; // copied out of policy as a convenience
-    uint64 policy_version    = 3; // copied out of policy as a convenience
-    string policy_revision   = 4; // copied out of policy as a convenience
-    string policy_metadata   = 5; // copied out of policy as a convenience
-    bytes policy             = 6; // serialized policy
-    bytes signature          = 7; // signature of serialized policy
+    uint32 version_major     = 1; // compiler version
+    uint32 version_minor     = 2;
+    uint32 version_patch     = 3;
+    string policy_date       = 4; // copied out of policy as a convenience
+    uint64 policy_version    = 5; // copied out of policy as a convenience
+    string policy_revision   = 6; // copied out of policy as a convenience
+    string policy_metadata   = 7; // copied out of policy as a convenience
+    bytes policy             = 8; // serialized policy
+    bytes signature          = 9; // signature of serialized policy
     // TODO: May want create and expire timestamps on here.
 }
 
 
 message Policy {
-    uint32 serial_version          = 1; // Increments when we alter this schema
-    string policy_date             = 2; // set in file or by compiler
-    uint64 policy_version          = 3; // set in file or by compiler arg (defaults to a timestamp)
-    string policy_revision         = 4; // set in file or by compiler arg (but is required)
-    string policy_metadata         = 5;
-    repeated Connect connects      = 6;
-    repeated CPolicy policies      = 7;
-    repeated Service services      = 8; // auth services (excludes "internal" cert-type auth services for some reason)
-    repeated Proc procs            = 9; // list of procedures, indexed by ID
-    repeated Link links            = 10;
-    repeated Cert certificates     = 11; // For datasources, including "internal".
-    repeated string attr_key_index = 12; // Attribute keys, in order
-    repeated string attr_val_index = 13; // Attribute values, in order
-    repeated ConfigSetting config  = 14; // Global settings
-    repeated PublicKey pubkeys     = 15; // Public keys used for bootstrap
+    string policy_date             = 1; // set in file or by compiler
+    uint64 policy_version          = 2; // set in file or by compiler arg (defaults to a timestamp)
+    string policy_revision         = 3; // set in file or by compiler arg (but is required)
+    string policy_metadata         = 4;
+    repeated Connect connects      = 5;
+    repeated CPolicy policies      = 6;
+    repeated Service services      = 7; // auth services (excludes "internal" cert-type auth services for some reason)
+    repeated Proc procs            = 8; // list of procedures, indexed by ID
+    repeated Link links            = 9;
+    repeated Cert certificates     = 10; // For datasources, including "internal".
+    repeated string attr_key_index = 11; // Attribute keys, in order
+    repeated string attr_val_index = 12; // Attribute values, in order
+    repeated ConfigSetting config  = 13; // Global settings
+    repeated PublicKey pubkeys     = 14; // Public keys used for bootstrap
 }
 
 

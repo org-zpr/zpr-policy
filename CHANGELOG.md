@@ -1,5 +1,10 @@
 # Policy "compiled form" Protocol Buffer Format
 
+## [0.3.0] - TBD
+
+- Remove container_version and serial_version in favor of three fields
+  to hold the compiler version (major, minor, patch).
+
 ## [0.2.2] - 2025-06-05
 
 - New fields on the service to store returned and identity attributes.
