@@ -1,5 +1,11 @@
 # Policy "compiled form" Protocol Buffer Format
 
+## [0.4.0] - 2025-08-26
+
+- Keep track of required service attributes (as opposed to only client
+  ones).
+
+
 ## [0.3.0] - 2025-06-11
 
 - Remove container_version and serial_version in favor of three fields

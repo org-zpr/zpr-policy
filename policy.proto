@@ -58,11 +58,12 @@ message Connect {
 
 // CPolicy is a Communications Policy
 message CPolicy {
-    string service_id               = 1;  // required to match the service (which may get dynamic addr)
-    string id                       = 2;
-    repeated Scope scope            = 3;
-    repeated Condition conditions   = 4;
-    repeated Constraint constraints = 5;
+    string service_id                 = 1;  // required to match the service (which may get dynamic addr)
+    string id                         = 2;
+    repeated Scope scope              = 3;
+    repeated Condition cli_conditions = 4;  // must match client
+    repeated Constraint constraints   = 5;
+    repeated Condition svc_conditions = 6;  // must match service
     // We used to have a proc on the policy too, but not anymore. Setting up the PEPs is now
     // part of what the visa service does.
 }
