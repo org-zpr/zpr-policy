@@ -24,7 +24,7 @@ jobs:
           rustup default stable;
           apt-get install -y capnproto;
           cargo install capnpc;
-          export PATH=~/.cargo/bin:$PATH
+          export PATH=~/.cargo/bin:$PATH;
           ./generate.sh "$SRC_PATH" && ./generate.sh v2 "$SRC_PATH"'
     secrets:
       RW_TOKEN: ${{ secrets.POLICY_BINDINGS_RW }}
