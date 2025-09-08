@@ -64,6 +64,7 @@ message CPolicy {
     repeated Condition cli_conditions = 4;  // must match client
     repeated Constraint constraints   = 5;
     repeated Condition svc_conditions = 6;  // must match service
+    bool allow                        = 7;  // TRUE for allow, FALSE for deny.
     // We used to have a proc on the policy too, but not anymore. Setting up the PEPs is now
     // part of what the visa service does.
 }
