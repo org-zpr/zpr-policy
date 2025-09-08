@@ -22,7 +22,9 @@ jobs:
       dry-run: ${{ github.event_name == 'pull_request' }}
       make-script: 'apt-get install -y protobuf-compiler;
           rustup default stable;
-          ./generate.sh "$SRC_PATH"'
+          apt-get install -y capnproto;
+          cargo install capnpc;
+          ./generate.sh "$SRC_PATH" && ./generate.sh v2 "$SRC_PATH"'
     secrets:
       RW_TOKEN: ${{ secrets.POLICY_BINDINGS_RW }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
