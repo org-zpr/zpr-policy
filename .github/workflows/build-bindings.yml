@@ -15,7 +15,7 @@ env:
 jobs:
   generate-rust-bindings:
     name: Generate Rust Bindings
-    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@${{ DEV_TOOLS_COMMIT }}
+    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@${{ env.DEV_TOOLS_COMMIT }}
     with:
       src-repo: org-zpr/zpr-policy
       dst-repo: org-zpr/zpr-policy-rs
@@ -34,7 +34,7 @@ jobs:
 
   generate-go-bindings:
     name: Generate Go Bindings
-    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@${{ DEV_TOOLS_COMMIT }}
+    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@${{ env.DEV_TOOLS_COMMIT }}
     with:
       src-repo: org-zpr/zpr-policy
       dst-repo: org-zpr/zpr-policy-go
