@@ -14,7 +14,7 @@ env:
 jobs:
   generate-rust-bindings:
     name: Generate Rust Bindings
-    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@10d7ff582c5d7212f09cddf1d1821382002a1b93
+    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@9b70a62d30da44eabda9cdba6d11b85fa9d86446
     with:
       src-repo: org-zpr/zpr-policy
       dst-repo: org-zpr/zpr-policy-rs
@@ -22,7 +22,10 @@ jobs:
       dry-run: ${{ github.event_name == 'pull_request' }}
       make-script: 'apt-get install -y protobuf-compiler;
           rustup default stable;
-          ./generate.sh "$SRC_PATH"'
+          apt-get install -y capnproto;
+          cargo install capnpc;
+          export PATH=~/.cargo/bin:$PATH;
+          ./generate.sh "$SRC_PATH" && ./generate.sh v2 "$SRC_PATH"'
     secrets:
       RW_TOKEN: ${{ secrets.POLICY_BINDINGS_RW }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -30,7 +33,7 @@ jobs:
 
   generate-go-bindings:
     name: Generate Go Bindings
-    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@10d7ff582c5d7212f09cddf1d1821382002a1b93
+    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@9b70a62d30da44eabda9cdba6d11b85fa9d86446
     with:
       src-repo: org-zpr/zpr-policy
       dst-repo: org-zpr/zpr-policy-go
