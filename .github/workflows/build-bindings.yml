@@ -10,11 +10,12 @@ concurrency:
 
 env:
   CARGO_TERM_COLOR: always
+  DEV_TOOLS_COMMIT: a761a84297dc2ebb55ca5e829818104cf099d735
 
 jobs:
   generate-rust-bindings:
     name: Generate Rust Bindings
-    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@9b70a62d30da44eabda9cdba6d11b85fa9d86446
+    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@${{ DEV_TOOLS_COMMIT }}
     with:
       src-repo: org-zpr/zpr-policy
       dst-repo: org-zpr/zpr-policy-rs
@@ -33,7 +34,7 @@ jobs:
 
   generate-go-bindings:
     name: Generate Go Bindings
-    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@9b70a62d30da44eabda9cdba6d11b85fa9d86446
+    uses: org-zpr/zpr-dev-tools/.github/workflows/generate-pr.yml@${{ DEV_TOOLS_COMMIT }}
     with:
       src-repo: org-zpr/zpr-policy
       dst-repo: org-zpr/zpr-policy-go
