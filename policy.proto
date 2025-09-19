@@ -65,8 +65,15 @@ message CPolicy {
     repeated Constraint constraints   = 5;
     repeated Condition svc_conditions = 6;  // must match service
     bool allow                        = 7;  // TRUE for allow, FALSE for deny.
+    bool is_signal                    = 8;  // TRUE if there is a signal, FALSE otherwise.
+    Signal signal                     = 9;
     // We used to have a proc on the policy too, but not anymore. Setting up the PEPs is now
     // part of what the visa service does.
+}
+
+message Signal {
+    string msg = 1;
+    string svc = 2;
 }
 
 enum SvcT {
