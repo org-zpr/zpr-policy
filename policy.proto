@@ -93,8 +93,8 @@ message Service {
     string domain               = 4; // TLS domain
     string query_uri            = 5; // Empty, or needs an l7 protocol name and port.
     string validate_uri         = 6; // Empty, or needs an l7 protocol name and port.
-    repeated string attrs       = 7; // Returns attribute keys (with domains)
     repeated string id_attrs    = 8; // Identity attribute keys (with domains)
+    map<string,string> attr_map = 9; // maps service attribute name to ZPL namespace.name
 }
 
 message Condition {
