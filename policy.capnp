@@ -26,6 +26,7 @@ struct CPolicy {
   scope        @4 :List(Scope);
   clientConds  @5 :List(AttrExpr);
   serviceConds @6 :List(AttrExpr);
+  signal       @7 :Signal; # Don't need an is_signal because capnp has a has_signal func to see if this field is set
 }
 
 enum ScopeFlag {
@@ -59,5 +60,10 @@ struct AttrExpr {
   key   @0 :Text;
   op    @1 :AttrOp;
   value @2 :List(Text);
+}
+
+struct Signal {
+  msg @0 :Text;
+  svc @1 :Text;
 }
 
