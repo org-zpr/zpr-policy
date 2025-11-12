@@ -15,6 +15,7 @@ struct Policy {
   version     @1 :UInt64;
   metadata    @2 :Text;
   comPolicies @3 :List(CPolicy);
+  keys        @4 :List(KeyMaterial);
 }
 
 # "CPolicy" is a Communications Policy.
@@ -67,3 +68,17 @@ struct Signal {
   svc @1 :Text;
 }
 
+enum KeyMaterialT {
+  rsaPub @0;
+}
+
+enum KeyAllowance {
+  bootstrap @0;
+}
+
+struct KeyMaterial {
+  id        @0  :Text;
+  keyType   @1  :KeyMaterialT;
+  keyAllows @2  :List(KeyAllowance);
+  keyData   @3  :Data;
+}
