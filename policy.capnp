@@ -11,11 +11,12 @@ struct PolicyContainer {
 }
 
 struct Policy {
-  created     @0 :Text; # timestamp
-  version     @1 :UInt64;
-  metadata    @2 :Text;
-  comPolicies @3 :List(CPolicy);
-  keys        @4 :List(KeyMaterial);
+  created       @0 :Text; # timestamp
+  version       @1 :UInt64;
+  metadata      @2 :Text;
+  comPolicies   @3 :List(CPolicy);
+  keys          @4 :List(KeyMaterial);
+  joinPolicies  @5 :List(JPolicy);
 }
 
 # "CPolicy" is a Communications Policy.
@@ -48,6 +49,45 @@ struct Scope {
         high  @4 :UInt16;
     }
   }
+}
+
+# "JPolicy" is a join policy - who can join the network and what happens when they do.
+struct JPolicy {
+  match    @0 :List(AttrExpr); # all these attributes must match
+  provides @1 :List(Service);
+  flags    @2 :List(JoinFlag);
+}
+
+# A service offered on the network.
+struct Service {
+  id         @0 :Text;
+  endpoints  @1 :List(Endpoint);  
+  kind :union {
+    regular  @2 :Void;  
+    trusted  @3 :Text;  # takes an api name
+    auth     @4 :Void;
+    visa     @5 :Void;
+    builtin  @6 :Void;
+  }
+}
+
+struct Endpoint {
+  protocol    @0 :UInt8;
+  union {
+    port :group {
+      ports   @1 :List(UInt16);
+    }
+    portRange :group {
+      low     @2 :UInt16;
+      high    @3 :UInt16;
+    }
+  }
+}
+
+enum JoinFlag {
+  node   @0;
+  vs     @1;
+  vsdock @2;
 }
 
 enum AttrOp {
