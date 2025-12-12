@@ -61,7 +61,7 @@ struct JPolicy {
 # A service offered on the network.
 struct Service {
   id         @0 :Text;
-  endpoints  @1 :List(Endpoint);  
+  endpoints  @1 :List(Scope);  
   kind :union {
     regular  @2 :Void;  
     trusted  @3 :Text;  # takes an api name
