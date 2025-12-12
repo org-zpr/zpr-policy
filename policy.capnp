@@ -71,25 +71,6 @@ struct Service {
   }
 }
 
-struct Endpoint {
-  protocol    @0 :UInt8;
-  icmpFlow    @1 :IcmpFlowType;  # only set/read for ICMP protocols
-  union {
-    port :group {
-      ports   @2 :List(UInt16);
-    }
-    portRange :group {
-      low     @3 :UInt16;
-      high    @4 :UInt16;
-    }
-  }
-}
-
-enum IcmpFlowType {
-  unset   @0;
-  reqresp @1;
-  oneshot @2;
-}
 
 enum JoinFlag {
   node   @0;
