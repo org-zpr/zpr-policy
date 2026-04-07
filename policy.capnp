@@ -72,7 +72,7 @@ struct Service {
   }
 }
 
-# Two node peers form a link.
+# Two node peers form a link. Bi-directional and symmetric.
 struct Peering {
   linkId         @0 :Text;           # identifier for the link (for logging, debugging)
   nodeA          @1 :Text;           # node identifier
@@ -86,7 +86,7 @@ struct Peering {
 struct NetAddr {
   union {
     hostname @0 :Text;
-    ipAddr   @1 :Data;
+    ipAddr   @1 :Data;  # Could be IPv4 or IPv6
   }
   port       @2 :UInt16;
 }
