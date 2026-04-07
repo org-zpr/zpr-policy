@@ -7,8 +7,7 @@ struct PolicyContainer {
   zplcVerPatch @2 :UInt32;
 
   policy    @3 :Data; # capnp encoded 'Policy'
-  source    @4 :Data; # compressed policy source
-  signature @5 :Data; # signature over 'policy' and 'source'
+  signature @4 :Data; # signature over 'policy' and 'source'
 }
 
 struct Policy {
