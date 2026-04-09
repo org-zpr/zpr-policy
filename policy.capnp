@@ -6,8 +6,8 @@ struct PolicyContainer {
   zplcVerMinor @1 :UInt32;
   zplcVerPatch @2 :UInt32;
 
-  policy    @3 :Data;  # capnp encoded 'Policy'
-  signature @4 :Data; # signature over 'policy'
+  policy    @3 :Data; # capnp encoded 'Policy'
+  signature @4 :Data; # signature over 'policy' and 'source'
 }
 
 struct Policy {
@@ -17,6 +17,7 @@ struct Policy {
   comPolicies   @3 :List(CPolicy);
   keys          @4 :List(KeyMaterial);
   joinPolicies  @5 :List(JPolicy);
+  topology      @6 :List(Peering);
 }
 
 # "CPolicy" is a Communications Policy.
@@ -61,9 +62,9 @@ struct JPolicy {
 # A service offered on the network.
 struct Service {
   id         @0 :Text;
-  endpoints  @1 :List(Scope);  
+  endpoints  @1 :List(Scope);
   kind :union {
-    regular  @2 :Void;  
+    regular  @2 :Void;
     trusted  @3 :Text;  # takes an api name
     auth     @4 :Void;
     visa     @5 :Void;
@@ -71,6 +72,24 @@ struct Service {
   }
 }
 
+# Two node peers form a link. Bi-directional and symmetric.
+struct Peering {
+  linkId         @0 :Text;           # identifier for the link (for logging, debugging)
+  nodeA          @1 :Text;           # node identifier
+  nodeASubstrate @2 :NetAddr;
+  nodeB          @3 :Text;           # node identifier
+  nodeBSubstrate @4 :NetAddr;
+  attrs          @5 :List(AttrExpr); # link attributes
+}
+
+
+struct NetAddr {
+  union {
+    hostname @0 :Text;
+    ipAddr   @1 :Data;  # Could be IPv4 or IPv6
+  }
+  port       @2 :UInt16;
+}
 
 enum JoinFlag {
   node   @0;
