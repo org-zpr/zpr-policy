@@ -11,13 +11,14 @@ struct PolicyContainer {
 }
 
 struct Policy {
-  created       @0 :Text; # timestamp
-  version       @1 :UInt64;
-  metadata      @2 :Text;
-  comPolicies   @3 :List(CPolicy);
-  keys          @4 :List(KeyMaterial);
-  joinPolicies  @5 :List(JPolicy);
-  topology      @6 :List(Peering);
+  created         @0 :Text; # timestamp
+  version         @1 :UInt64;
+  metadata        @2 :Text;
+  comPolicies     @3 :List(CPolicy);
+  keys            @4 :List(KeyMaterial);
+  joinPolicies    @5 :List(JPolicy);
+  topology        @6 :List(Peering);
+  trustedServices @7 :List(TrustedService);
 }
 
 # "CPolicy" is a Communications Policy.
@@ -70,6 +71,20 @@ struct Service {
     visa     @5 :Void;
     builtin  @6 :Void;
   }
+}
+
+# Additional details for Trusted Services
+struct TrustedService {
+  serviceId         @0 :Text; # Copied from Service.id
+  expirationSeconds @1 :UInt32;
+  returnsAttrs      @2 :List(AttrMapping);
+  identityAttrs     @3 :List(Text);
+}
+
+# Directly maps to the ZPLC "returns_attributes" mapping
+struct AttrMapping {
+  serviceAttrKey @0 :Text;  # what the service calls the attribute
+  zprAttrSpec    @1 :Text;  # what ZPR calls the attribute
 }
 
 # Two node peers form a link. Bi-directional and symmetric.
