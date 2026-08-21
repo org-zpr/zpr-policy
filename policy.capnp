@@ -31,6 +31,7 @@ struct CPolicy {
   clientConds  @5 :List(AttrExpr);
   serviceConds @6 :List(AttrExpr);
   signal       @7 :Signal; # Don't need an is_signal because capnp has a has_signal func to see if this field is set
+  linkConds    @8 :List(AttrExpr); # conditions each link on the path must satisfy
 }
 
 enum ScopeFlag {
